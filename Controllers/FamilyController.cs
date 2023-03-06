@@ -1,3 +1,5 @@
+/*
+
 using System.Text.Json;
 using flowers.web.Data;
 using flowers.web.ViewModel.Families;
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using flowers.web.Models;
 
-[Route("Families")]
+[Route("families")]
     public class FamilyController: Controller
     {
          private readonly FlowersContext _context;
@@ -70,4 +72,31 @@ using flowers.web.Models;
             return Ok(result);
         }
 
-    }
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var families = await CreateList();
+
+            var model = new FamilyPostView 
+            {
+                Families = families
+            };
+            return View("create", model);
+        }
+        private async Task<IList<FamilyListView>> CreateList()
+        {
+            var families = await _context.Families
+                .OrderBy(c => c.Name)
+                .Select(m => new FamilyListView
+                {
+                    Id = m.Id,
+                    Name = m.Name
+                })
+                .ToListAsync();
+
+            return families;
+        }
+
+
+
+    }*/

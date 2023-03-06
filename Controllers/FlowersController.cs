@@ -1,3 +1,4 @@
+
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using flowers.web.ViewModel.Flowers;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using flowers.web.Models;
 
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
-using Newtonsoft.Json;
+
 
 [Route("flowers")]
     public class FlowersController : Controller
@@ -68,8 +69,91 @@ using Newtonsoft.Json;
             return Ok(result);
         }
 
-        //Jag har mosat omkring riktigt väl i mina Http här nedanför. Det bör städas. Sen läsa lite varflr vissa får samma error som mig i sina projekt...
-        [HttpGet("create")]
+        
+    [HttpGet("create")]
+    public async Task<IActionResult> Create()
+    {
+       
+            
+       //var families = await _context.Families.ToListAsync();
+       
+
+         //var familyList = new List<SelectListItem>();
+   
+
+         //foreach (var family in families)
+         //{
+         //    familyList.Add(new SelectListItem { Value = family.Id.ToString(), Text = family.Name });
+         //}
+           
+        var flower = new FlowerPostView(); 
+        //flower.Families = familyList;
+        
+
+        return View("Create", flower);
+    }
+
+     private async Task<List<FlowerListView>> CreateList()
+        {
+                var flowers = await _context.Flowers
+                .OrderBy(f => f.Name)
+                .Select(b => new FlowerListView
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    Color = b.Color,
+                    Height = b.Height
+                 })
+                 .ToListAsync();
+
+           return flowers;
+         }
+       
+
+
+         
+         /* 
+         
+                 [HttpPost]
+         public async Task<IActionResult> Create(FlowerPostView flower)
+         {
+             if(!ModelState.IsValid) return View("Create", flower);
+
+
+            //var fam = await _context.Families.FindAsync(flower.Family);
+            var fam = await _context.Families.SingleOrDefaultAsync(f => f.Id == flower.FamilyId);
+
+             if (fam is not null)
+             {
+                var newFlower = new FlowerModel
+                {
+                    
+                    Name = flower.Name,
+                    Families = fam,
+                    Color = flower.Color,
+                    Height = flower.Height,
+                    ImageUrl = "flowers.png"
+                };
+                 await _context.Flowers.AddAsync(newFlower);
+
+                 if (await _context.SaveChangesAsync() > 0) 
+                { 
+                    return RedirectToAction(nameof(Index));
+
+                }
+             return View("Errors");
+
+             }
+             return View("Errors");
+            
+           
+         }
+         */
+
+/*
+              
+
+     [HttpGet("create")]
 
         public async Task<IActionResult> Create()
         {
@@ -83,7 +167,7 @@ using Newtonsoft.Json;
             var json = await response.Content.ReadAsStringAsync();
             //var json = await response.Content.ReadFromJsonAsync();
 
-            var flowers = System.Text.Json.JsonSerializer.Deserialize<FlowerPostView>(json, _options);
+            var flowers = JsonSerializer.Deserialize<FlowerPostView>(json, _options);
     
             //var flowers = JsonSerializer.DeserializeAsyncEnumerable<FlowerPostView>(json, _options);
 
@@ -93,80 +177,6 @@ using Newtonsoft.Json;
             //Eller är min länk i menyn korrupt
             //Ta bort all koppling mellan tabellerna och lägg bara till en blomma.
         }
-
-        [HttpPost("create")]
-         public async Task<IActionResult> Create(FlowerPostView flower)
-         {
-             if(!ModelState.IsValid) return View("Create", flower);
-
-
-            //var fam = await _context.Families.FindAsync(flower.Family);
-            //var fam = await _context.Families.SingleOrDefaultAsync(f => f.Id == flower.Family);
-             using var client = _httpClient.CreateClient();
-
-
-             var newFlower = JsonConvert.SerializeObject(flower);
-             var moveIt = System.Text.Encoding.UTF8.GetBytes(newFlower);
-             var pieces = new ByteArrayContent(moveIt);
-             pieces.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-            
-            
-            
-            var response = await client.PostAsync($"{_baseUrl}/flowers", pieces);
-             
-
-             if(!response.IsSuccessStatusCode) return Content("you didnt succeed");
-             var json = await response.Content.ReadAsStringAsync();
-
-             return RedirectToAction(nameof(Index));
-             /*if (fam is not null)
-             {
-                var newFlower = new FlowerModel
-                {
-                    
-                    Name = flower.Name,
-                    //Family = fam,
-                    Color = flower.Color,
-                    Height = flower.Height,
-                    ImageUrl = "flowers.png"
-                };
-                 await _context.Flowers.AddAsync(newFlower);
-                 if (await _context.SaveChangesAsync() > 0) 
-                { 
-                    return RedirectToAction(nameof(Index));
-
-                }
-             //return View("Errors");
-
-            // }
-             return View("Errors");
-            */
-           
-         }
-
-/*
-              [HttpGet("create")]
-    public async Task<IActionResult> Create()
-    {
-        var families = await _context.Families.ToListAsync();
-       
-
-        var familyList = new List<SelectListItem>();
-   
-
-        foreach (var family in families)
-        {
-            familyList.Add(new SelectListItem { Value = family.Id.ToString(), Text = family.Name });
-        }
-
-        
-
-        var flower = new FlowerPostView();
-        flower.Families = familyList;
-        
-
-        return View("Create", flower);
-    }
 
     [HttpPost]
     public async Task<IActionResult> Create(FlowerPostView flower)

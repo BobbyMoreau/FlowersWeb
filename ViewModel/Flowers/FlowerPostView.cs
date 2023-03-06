@@ -1,7 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace flowers.web.ViewModel.Flowers
@@ -19,8 +18,8 @@ namespace flowers.web.ViewModel.Flowers
         [JsonPropertyName("familyId")]
         public int FamilyId { get; set;}
         // [JsonPropertyName("family")]
-        // public string Family { get; set; }
-        public List<SelectListItem> Families { get; set;}
+        //  public string Family { get; set; }
+        //public List<SelectListItem> Families { get; set;}
 
         //[Required(ErrorMessage = "You have to write the flower's name")]
         [JsonPropertyName("name")]
