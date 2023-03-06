@@ -1,0 +1,33 @@
+@model flowers.web.ViewModel.Flowers.FlowerPostView
+
+<section>
+    <h1>Add a flower</h1>
+    <form asp-action="Create" method="post">
+        <div>
+            <label asp-for="Name"></label>
+            <input asp-for="Name" type="text" >
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        <div>
+            <label asp-for="Families"></label>
+            <select asp-for="Families" asp-items="Model.Families"></select>
+            <span asp-validation-for="Families"></span>
+        </div> 
+
+        <div>
+            <label asp-for="Color"></label>
+            <input asp-for="Color" type="text" >
+            <span asp-validation-for="Color"></span>
+        </div>
+        <div>
+            <label asp-for="Height"></label>
+            <input asp-for="Height" type="text" >
+            <span asp-validation-for="Height"></span>
+        </div>
+        <div>
+                <button>Spara</button>
+                <a asp-action="Index">Avbryt</a>
+        </div>
+    </form>    
+</section>

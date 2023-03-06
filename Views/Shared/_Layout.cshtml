@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]+ Flowers +</title>
+   
+</head>
+<body>
+    <header>
+        <nav>
+        <h1><span>Flowers REMEMBER</span></h1>
+        <ul>
+                <li><a asp-action="Index" asp-controller="Home">Start</a></li>
+                <li><a asp-action="Index" asp-controller="Flowers">Flowers</a></li>
+                <li><a asp-action="Create" asp-controller="Flowers"> Add Flower</a></li>
+                
+            </ul>
+        </nav>
+    </header>
+    
+   
+        <main>
+            @RenderBody()
+        </main>
+   
+</body>
+</html>

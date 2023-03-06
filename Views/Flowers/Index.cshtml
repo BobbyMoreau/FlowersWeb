@@ -1,0 +1,17 @@
+@model IList<flowers.web.ViewModel.Flowers.FlowerListView>
+<section>
+    <h1>ALL FLOWERS</h1>
+    <div>
+        @foreach (var flower in Model)
+        {
+            <div>
+                <img src="@flower.ImageUrl" alt="@flower.Name">
+                <div><span>@flower.Name</span>&nbsp;<span>@flower.Height</span><span>@flower.Color</span></div>
+                <div>@flower.Family</div>
+            </div>
+        }
+    </div>
+
+
+
+</section>
