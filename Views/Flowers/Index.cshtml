@@ -1,13 +1,18 @@
 @model IList<flowers.web.ViewModel.Flowers.FlowerListView>
-<section>
-    <h1>ALL FLOWERS</h1>
-    <div>
+<section class="page">
+    <h1 class="page-title">ALL FLOWERS</h1>
+    <div class="gallery-wrapper">
         @foreach (var flower in Model)
         {
-            <div>
-                <img src="@flower.ImageUrl" alt="@flower.Name">
-                <div><span>@flower.Name</span>&nbsp;<span>@flower.Height</span><span>@flower.Color</span></div>
-                
+            <div class="gallery-card">
+                <div><span>@flower.Name</span></div>
+                <img src="@flower.ImageUrl">
+                <div>&nbsp;<span>@flower.Height</span><span>@flower.Color</span></div>
+                <div class="buttons-container">
+                    <a class="btn btn-dark" asp-action="details" asp-controller="flower" asp-route-id="@flower.Id">Se
+                        mer</a>
+                    <a class="btn btn-dark" asp-action="edit" asp-controller="flower" asp-route-id="@flower.Id">Ändra</a>
+                </div>
             </div>
         }
     </div>
