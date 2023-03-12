@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using flowers.web.Models;
 
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
-
+using System.Text;
+using System.Net.Http.Headers;
 
 [Route("flowers")]
     public class FlowersController : Controller
@@ -58,8 +59,6 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
         }
 
 
-        //Space in URL - hov to remove?
-        // Did not work = _context.Flowers.SingleOrDefaultAsync(c => c.Name.Trim() == name.Trim());
         [HttpGet("Name/{name}")] 
         public async Task<IActionResult> GetByName(string name)
         {
@@ -70,28 +69,54 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
         }
 
         
-    [HttpGet("create")]
-    public async Task<IActionResult> Create()
-    {
-       
-            
-       //var families = await _context.Families.ToListAsync();
-       
-
-         //var familyList = new List<SelectListItem>();
    
 
-         //foreach (var family in families)
-         //{
-         //    familyList.Add(new SelectListItem { Value = family.Id.ToString(), Text = family.Name });
-         //}
-           
-        var flower = new FlowerPostView(); 
-        //flower.Families = familyList;
-        
+    [HttpGet("create")]
 
-        return View("Create", flower);
-    }
+        public async Task<IActionResult> Create()
+        {
+            
+            using var client = _httpClient.CreateClient();
+        //var response = await client.GetAsync($"{_baseUrl}/flowers");
+
+        //if(!response.IsSuccessStatusCode) return Content("Did you want to create?? It didn't succed");
+
+
+        //var json = await response.Content.ReadAsStringAsync();
+
+
+        //var flowers = JsonSerializer.Deserialize<FlowerPostView>(json, _options);
+            var flowers = new FlowerPostView();
+
+            return View("create", flowers);
+            
+        }
+
+           [HttpPost("Create")]
+         public async Task<IActionResult> Create(FlowerPostView flowers)
+         {
+             if(!ModelState.IsValid) return View("Create", flowers);
+
+            var addClient = _httpClient.CreateClient();
+            
+            
+            var jsonflower = JsonSerializer.Serialize(flowers);
+            var content = new StringContent(jsonflower, UnicodeEncoding.UTF8, "application/json");
+           
+    //        var encoding = System.Text.Encoding.UTF8.GetBytes(jsonflower);
+    //        var objektInBytes = new ByteArrayContent(encoding);
+    //        objektInBytes.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            var response = await addClient.PostAsync($"{_baseUrl}/flowers", content);
+
+            if (!response.IsSuccessStatusCode) return Content("Failed to add flower");
+ 
+            var json = await response.Content.ReadAsStringAsync();
+                
+                
+                return RedirectToAction(nameof(Index));
+
+             } 
 
      private async Task<List<FlowerListView>> CreateList()
         {
@@ -109,10 +134,10 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
            return flowers;
          }
        
+    }
 
 
-         
-         /* 
+             /* 
          
                  [HttpPost]
          public async Task<IActionResult> Create(FlowerPostView flower)
@@ -209,4 +234,4 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
         return View("Errors");
     }*/
-    }
+

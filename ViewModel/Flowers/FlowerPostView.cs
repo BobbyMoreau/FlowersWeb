@@ -22,7 +22,7 @@ namespace flowers.web.ViewModel.Flowers
         //public List<SelectListItem> Families { get; set;}
 
         //[Required(ErrorMessage = "You have to write the flower's name")]
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        //[JsonPropertyName("name")]
+        //public string Name { get; set; }
     }
 }
