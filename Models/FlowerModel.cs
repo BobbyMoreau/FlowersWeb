@@ -13,8 +13,8 @@ namespace flowers.web.Models
         public int FamilyId { get; set; }
         public string ImageUrl { get; set; }
 
-       //[ForeignKey("FamilyId")]
+       [ForeignKey("FamilyId")]
         
-       //public FamilyModel Families { get; set; }
+       public FamilyModel Families { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace flowers.web.Data
 {
     public static class SeedData
     {
-        /*
+        
         public static async Task LoadFamilies(FlowersContext context)
         {
             var options = new JsonSerializerOptions{
@@ -23,7 +23,7 @@ namespace flowers.web.Data
                     await context.Families.AddRangeAsync(families);
                     await context.SaveChangesAsync();
             }
-        }*/
+        }
 
 
          public static async Task LoadFlowers(FlowersContext context)

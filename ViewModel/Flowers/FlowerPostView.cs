@@ -17,9 +17,9 @@ namespace flowers.web.ViewModel.Flowers
         //[Required(ErrorMessage = "You have to choose the flowers family")]
         [JsonPropertyName("familyId")]
         public int FamilyId { get; set;}
-        // [JsonPropertyName("family")]
-        //  public string Family { get; set; }
-        //public List<SelectListItem> Families { get; set;}
+         [JsonPropertyName("family")]
+        public string Family { get; set; }
+        public List<SelectListItem> Families { get; set;}
 
         //[Required(ErrorMessage = "You have to write the flower's name")]
         //[JsonPropertyName("name")]

@@ -1,15 +1,12 @@
-
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using flowers.web.ViewModel.Flowers;
 using flowers.web.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using flowers.web.Models;
-
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using System.Text;
-using System.Net.Http.Headers;
+using flowers.web.ViewModel.Families;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 [Route("flowers")]
     public class FlowersController : Controller
@@ -77,16 +74,22 @@ using System.Net.Http.Headers;
         {
             
             using var client = _httpClient.CreateClient();
-        //var response = await client.GetAsync($"{_baseUrl}/flowers");
+            var response = await client.GetAsync($"{_baseUrl}/families");
 
-        //if(!response.IsSuccessStatusCode) return Content("Did you want to create?? It didn't succed");
-
-
-        //var json = await response.Content.ReadAsStringAsync();
+            if(!response.IsSuccessStatusCode) return Content("It didn't succed");
 
 
-        //var flowers = JsonSerializer.Deserialize<FlowerPostView>(json, _options);
+            var json = await response.Content.ReadAsStringAsync();
+
+
+            var families = JsonSerializer.Deserialize<IList<FamilyPostView>>(json, _options);
+            var listedFamilies = new List<SelectListItem>();
+            foreach (var family in families) 
+            {
+                listedFamilies.Add(new SelectListItem {Value = family.Name, Text= family.Name});
+            }
             var flowers = new FlowerPostView();
+            flowers.Families = listedFamilies;
 
             return View("create", flowers);
             
