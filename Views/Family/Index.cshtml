@@ -1,15 +1,19 @@
 @model IList<flowers.web.ViewModel.Families.FamilyListView>
-<section class="list">
-    <h1>ALL FAMILIES</h1>
-    <div>
-        @foreach (var family in Model)
-        {
-            <div>                
-                <div><span>@family.Id</span>&nbsp;<span>@family.Name</span></div>
-                <div>@family.Name</div>
-            </div>
-        }
-    </div>
+<section class="page">
+            <h1>ALL FAMILIES</h1>
+    <section class="list">
 
+        <div>
+            @foreach (var family in Model)
+            {
+                <div>                
+                    <div><span>@family.Id</span>&nbsp;<span>@family.Name</span></div> <a class="btn btn-small" asp-action="detail" asp-controller="families" asp-route-id="@family.Id">Se mer</a>
+                    
+                </div>
+            }
+        </div>
+
+    </section>
 </section>
+
 

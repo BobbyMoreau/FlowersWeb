@@ -35,7 +35,7 @@ using flowers.web.Data;
             return View("Index", families);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("detail/{id}")]
 
         public async Task<IActionResult> GetById(int id)
         {
