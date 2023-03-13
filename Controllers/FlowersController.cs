@@ -43,7 +43,7 @@ using System.Net.Http.Headers;
             return View("Index", flowers);
         }
 
-        [HttpGet("{id}")] 
+        [HttpGet("detail/{id}")] 
         public async Task<IActionResult> Detail(int id)
         {
             using var client = _httpClient.CreateClient();

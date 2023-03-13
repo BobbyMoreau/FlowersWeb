@@ -1,14 +1,19 @@
 @model flowers.web.ViewModel.Flowers.FlowerDetailView
-<section>
-    <h1>ALL FLOWERS</h1>
+<article class="page">
+    <h1 class="page-title">The FLOWER</h1>
+<section class="detail-container">
+    <div class="detail">
+    
     <div>
        
         <div>
+            <div><span><h1 class="detail-header">@Model.Name</h1></span></div>
             <img src="@Model.ImageUrl" alt="@Model.Name">
-            <div><span>@Model.Name</span>&nbsp;<span>@Model.Height</span><span>@Model.Color</span></div>
+            <div class="detail-info"> <span>Flower number: @Model.Id</span><span>Height: @Model.Height</span>&nbsp; <span>Color: @Model.Color</span></div>
             <div></div>
         </div>
         
     </div>
-
+</div>
 </section>
+</article>
