@@ -1,16 +1,15 @@
 @model IList<flowers.web.ViewModel.Families.FamilyListView>
-<section>
-    <h1>ALL FLOWERS</h1>
+<section class="list">
+    <h1>ALL FAMILIES</h1>
     <div>
         @foreach (var family in Model)
         {
             <div>                
-                <div><span>@family.Id</span>&nbsp;</div>
+                <div><span>@family.Id</span>&nbsp;<span>@family.Name</span></div>
                 <div>@family.Name</div>
             </div>
         }
     </div>
 
-
-
 </section>
+

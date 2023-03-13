@@ -1,12 +1,15 @@
 @model flowers.web.ViewModel.Families.FamilyPostView
 
-<section>
-    <h1>Add a family</h1>
+<section class="page">
+    <h1 class="page-title">Add a family</h1>
     <form asp-action="Create" method="post">
         <div>
             <label asp-for="Name"></label>
             <input asp-for="Name" type="text" >
             <span asp-validation-for="Name"></span>
         </div>
-        
+        <div class="form-control">
+            <button>Spara</button>
+            <a asp-action="Index">Avbryt</a>
+        </div>
     </form>    

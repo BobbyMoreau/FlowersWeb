@@ -1,10 +1,10 @@
 using System.Text.Json;
-using flowers.web.Data;
-using flowers.web.ViewModel.Families;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using flowers.web.Models;
+using flowers.web.ViewModel.Families;
+using System.Text;
+using flowers.web.Data;
 
 [Route("families")]
     public class FamilyController: Controller
@@ -51,35 +51,39 @@ using flowers.web.Models;
         }
 
 
-    [HttpGet("{name}/flowers")]
+   
 
-        public async Task<IActionResult> ListFlowersInThisFamily(string name)
-        {
-            var result = await _context.Families
-            .Select(fa => new {
-                Name = fa.Name,
-                Flowers = fa.Flowers.Select(fl => new {
-                    Id = fl.Id,
-                    Name = fl.Name,
-                    Color = fl.Color,
-                    Height = fl.Height
-                }).ToList()
-            }).SingleOrDefaultAsync(c => c.Name.ToUpper() == name.ToUpper());
-
-            return Ok(result);
-        }
-
-        [HttpGet]
+        [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
-            var families = await CreateList();
+             using var client = _httpClient.CreateClient();
+            
 
-            var model = new FamilyPostView 
-            {
-                Families = families
-            };
-            return View("create", model);
+            var families = new FamilyPostView();
+            return View("create", families);
         }
+
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create(FamilyPostView families)
+        {
+             if(!ModelState.IsValid) return View("Create", families);
+
+            var addClient = _httpClient.CreateClient();
+            
+            
+            var jsonFamily = JsonSerializer.Serialize(families);
+            var content = new StringContent(jsonFamily, UnicodeEncoding.UTF8, "application/json");
+               
+            var response = await addClient.PostAsync($"{_baseUrl}/families", content);
+
+            if (!response.IsSuccessStatusCode) return Content("Failed to add family");
+ 
+            var json = await response.Content.ReadAsStringAsync();
+                
+                
+                return RedirectToAction(nameof(Index));
+
+        } 
         private async Task<IList<FamilyListView>> CreateList()
         {
             var families = await _context.Families
@@ -97,3 +101,24 @@ using flowers.web.Models;
 
 
     }
+/*
+
+ [HttpGet("{name}/family")]
+
+        public async Task<IActionResult> ListfamilyInThisFamily(string name)
+        {
+            var result = await _context.Families
+            .Select(fa => new {
+                Name = fa.Name,
+                family = fa.family.Select(fl => new {
+                    Id = fl.Id,
+                    Name = fl.Name,
+                    Color = fl.Color,
+                    Height = fl.Height
+                }).ToList()
+            }).SingleOrDefaultAsync(c => c.Name.ToUpper() == name.ToUpper());
+
+            return Ok(result);
+        }
+
+*/
