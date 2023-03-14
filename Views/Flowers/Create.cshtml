@@ -9,12 +9,6 @@
             <span asp-validation-for="Name"></span>
         </div>
 
-        @* <div class="form-control">
-            <label asp-for="FamilyId"></label>
-            <input asp-for="FamilyId" type="text" >
-            <span asp-validation-for="FamilyId"></span>
-        </div>  *@
-
         <div class="form-control">
             <label asp-for="Family"></label>
             <select asp-for="Family" asp-items="Model.Families" ></select>
@@ -32,7 +26,7 @@
             <span asp-validation-for="Height"></span>
         </div>
         <div class="form-control">
-                <button>Spara</button>
+                <button class="btn btn-dark">Spara</button>
                 <a asp-action="Index">Avbryt</a>
         </div>
     </form>    

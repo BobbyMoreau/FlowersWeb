@@ -1,6 +1,6 @@
 @model flowers.web.ViewModel.Families.FamilyPostView
 
-<section class="page">
+<section class="page-secondary">
     <h1 class="page-title">Add a family</h1>
     <form asp-action="Create" method="post">
         <div>
@@ -9,7 +9,7 @@
             <span asp-validation-for="Name"></span>
         </div>
         <div class="form-control">
-            <button>Spara</button>
+            <button class="btn btn-dark">Spara</button>
             <a asp-action="Index">Avbryt</a>
         </div>
     </form>    

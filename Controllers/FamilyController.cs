@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using flowers.web.ViewModel.Families;
 using System.Text;
 using flowers.web.Data;
@@ -51,8 +50,6 @@ using flowers.web.Data;
         }
 
 
-   
-
         [HttpGet("Create")]
         public async Task<IActionResult> Create()
         {
@@ -97,28 +94,4 @@ using flowers.web.Data;
 
             return families;
         }
-
-
-
     }
-/*
-
- [HttpGet("{name}/family")]
-
-        public async Task<IActionResult> ListfamilyInThisFamily(string name)
-        {
-            var result = await _context.Families
-            .Select(fa => new {
-                Name = fa.Name,
-                family = fa.family.Select(fl => new {
-                    Id = fl.Id,
-                    Name = fl.Name,
-                    Color = fl.Color,
-                    Height = fl.Height
-                }).ToList()
-            }).SingleOrDefaultAsync(c => c.Name.ToUpper() == name.ToUpper());
-
-            return Ok(result);
-        }
-
-*/
